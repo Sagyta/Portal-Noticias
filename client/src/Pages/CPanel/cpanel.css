@@ -1,0 +1,248 @@
+/* =========================
+   Reset Body / Evitar línea blanca arriba del Topbar
+   ========================= */
+   body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+/* =========================
+   PC - CPanel
+   ========================= */
+   .cpanel-container {
+    font-family: 'Arial', sans-serif;
+    background: #f5f5f5;
+    color: #0f2a44;
+    height: 100vh;
+  }
+  
+  .cpanel-body {
+    display: flex;
+    height: calc(100vh - 60px);
+  }
+  
+  .cpanel-content {
+    flex: 1;
+    padding: 20px;
+    background: #ffffff;
+    overflow-y: auto;
+    border-left: 1px solid #e0e0e0;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.03);
+    border-radius: 0 8px 8px 0;
+  }
+  
+  /* =========================
+     PC - Topbar / Header
+     ========================= */
+  .cpanel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 25px;
+    background: #0f2a44;
+    color: #ffffff;
+    height: 60px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1500;
+  }
+  
+  .logo {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-right: 25px;
+  }
+  
+  .hamburger {
+    display: none;
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+  
+  /* =========================
+     PC - User Menu
+     ========================= */
+  .user-menu {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .user-menu span {
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-block;
+    padding: 5px 10px;
+    white-space: nowrap;
+  }
+  
+  /* Dropdown */
+  .user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 2px;
+    background: #0f2a44;
+    color: #ffffff;
+    border: 1px solid #0f2a44;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-width: 150px;
+    z-index: 2000;
+  }
+  
+  .user-dropdown button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    color: #ffffff;
+    transition: all 0.2s;
+  }
+  
+  .user-dropdown button:hover,
+  .user-dropdown button:focus,
+  .user-dropdown button:active {
+    background: #e63946;
+    color: #ffffff;
+  }
+  
+  /* =========================
+   Sidebar - PC
+   ========================= */
+.cpanel-sidebar {
+  background: #0f2a44;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  transition: transform 0.3s, width 0.3s;
+  min-height: 100%;
+  box-sizing: border-box;
+  position: relative;
+
+  /* Flexible para no cortar contenido */
+  width: auto;
+  min-width: 220px; /* ancho mínimo */
+  max-width: 250px; /* ancho máximo */
+}
+
+.cpanel-sidebar .sidebar-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cpanel-sidebar .sidebar-item:hover {
+  background: #142d52;
+}
+
+.cpanel-sidebar .sidebar-item-active {
+  background: #142d52;
+  border-left: 4px solid #e63946;
+  font-weight: bold;
+}
+
+/* Botón cerrar (solo visible en móvil) */
+.cpanel-sidebar .close-sidebar {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+  
+  /* =========================
+     PC - Modal EditProfile
+     ========================= */
+  .edit-profile-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+  
+  .edit-profile-content {
+    background: #ffffff;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+  
+  .edit-profile-content h2 {
+    margin-top: 0;
+    color: #0f2a44;
+  }
+  
+  /* =========================
+     Responsive - Todos
+     ========================= */
+  
+  /* -------------------------
+     Sidebar Responsive (Tablet y Celular)
+     ------------------------- */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    /* Sidebar más estrecho */
+    .cpanel-sidebar { width: 60px; }
+    .cpanel-sidebar .sidebar-item { padding: 12px 10px; text-align: center; }
+    .cpanel-content { margin-left: 60px; }
+  }
+  
+  @media (max-width: 767px) {
+    /* Sidebar desplegable */
+    .cpanel-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 220px;
+      transform: translateX(-100%);
+      z-index: 1000;
+      background: #0f2a44;
+      padding-top: 50px;
+    }
+    .cpanel-sidebar.active { transform: translateX(0); }
+  
+    /* Botón cerrar visible en móvil */
+    .cpanel-sidebar .close-sidebar { display: block; }
+  
+    /* Ajustes contenido */
+    .cpanel-content { margin-left: 0; }
+    .hamburger { display: block; color: #ffffff; }
+  
+    /* Logo más pequeño */
+    .logo { font-size: 1em; }
+  
+    /* Usuario responsive */
+    .user-menu span {
+      display: inline-block;
+      font-size: 0.9em;
+      padding: 5px 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  
+    /* Dropdown alineado debajo del nombre/flecha */
+    .user-dropdown {
+      top: 100%;
+      right: 0;
+      margin-top: 2px;
+    }
+  }
