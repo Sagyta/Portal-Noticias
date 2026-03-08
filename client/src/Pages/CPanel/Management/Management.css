@@ -1,0 +1,97 @@
+/* Reset de listas y margen/padding */
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+/* Contenedor de la lista */
+.category-list-container {
+    width: 100%;           /* ocupar todo el ancho del content */
+    max-width: 100%;       /* evitar que se limite por un parent */
+    box-sizing: border-box;
+  }
+
+/* Lista de elementos */
+.category-list li {
+    display: flex;
+    justify-content: space-between; /* nombre a la izquierda, botones a la derecha */
+    align-items: center;
+    width: 100%; /* ocupar todo el ancho del contenedor */
+    padding: 10px 15px;
+    border-bottom: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    box-sizing: border-box; /* para que el padding no rompa el ancho */
+  }
+  
+  /* Nombre de categoría */
+  .category-name {
+    font-weight: 500;
+    color: #0f2a44;
+    flex: 1; /* ocupa todo el espacio que queda */
+  }
+  
+  /* Contenedor de botones */
+  .category-buttons {
+    display: flex;
+    gap: 10px; /* separación entre Editar y Borrar */
+    min-width: 120px; /* asegura que ambos botones estén a la derecha sin moverse */
+    justify-content: flex-end; /* pegados a la derecha */
+  }
+  
+  /* Botones */
+  .btn {
+    height: 32px;
+    padding: 0 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-edit {
+    background-color: #0f2a44;
+    color: white;
+  }
+  
+  .btn-edit:hover {
+    background-color: #1a3b63;
+  }
+  
+  .btn-delete {
+    background-color: #e63946;
+    color: white;
+  }
+  
+  .btn-delete:hover {
+    background-color: #b32a37;
+  }
+  
+  /* Inputs de formulario */
+  .form-input {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+    margin-right: 10px;
+  }
+  
+  .form-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0f2a44;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .form-button:hover {
+    background-color: #1a3b63;
+  }

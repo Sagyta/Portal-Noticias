@@ -1,3 +1,7 @@
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+export const CREATE_CATEGORY = "CREATE_CATEGORY";
+export const GET_CATEGORIES = "GET_CATEGORIES";
+export const UPDATE_CATEGORIES  = "UPDATE_CATEGORIES";
+export const DELETE_CATEGORY  = "DELETE_CATEGORY";
 

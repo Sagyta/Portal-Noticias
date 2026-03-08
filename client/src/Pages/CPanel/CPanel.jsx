@@ -1,66 +1,53 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux"; // si usas Redux para usuario
-import Sidebar from "./Sidebar";
+import { useSelector } from "react-redux";
 import Topbar from "./Topbar";
-import EditProfile from "./EditProfile";
-import "./cpanel.css";
+import Sidebar from "./Sidebar";
+import Content from "./Content";
+import "./CPanel.css";
 
 const CPanel = () => {
-  const [activeSection, setActiveSection] = useState("Dashboard");
-  const [showEditProfile, setShowEditProfile] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const dispatch = useDispatch();
+  const [activeGestion, setActiveGestion] = useState("Dashboard");
+  const [activeCrear, setActiveCrear] = useState(null);
 
-  const handleSectionChange = (section) => {
-    setActiveSection(section);
-    setSidebarOpen(false);
+  const user = useSelector(state => state.user);
+
+  if (!user) return <p>No hay usuario logueado</p>;
+
+  // Objeto mínimo de permisos por rol
+  const rolePermissions = {
+    1: {
+      Gestión: ["News","Category","Comments","Author","Users","Roles","Ads Banner","Ads Lateral"],
+      Crear: ["News","Category","Author","Users","Roles","Ads Banner","Ads Lateral"]
+    },
+    2: {
+      Gestión: ["News","Category","Comments","Ads Banner","Ads Lateral"],
+      Crear: ["News","Category","Ads Banner","Ads Lateral"]
+    },
+    3: {
+      Gestión: ["Comments","Ads Banner","Ads Lateral"],
+      Crear: ["Ads Banner","Ads Lateral"]
+    }
   };
 
-  const handleEditProfile = () => {
-    setShowEditProfile(true);
-  };
-
-  const closeEditProfile = () => {
-    setShowEditProfile(false);
-  };
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
-  const handleLogout = () => {
-    // Si guardas usuario en Redux:
-    dispatch({ type: "LOGOUT_USER" }); // asegúrate de tener este action en tu reducer
-
-    // O si guardas usuario en localStorage:
-    localStorage.removeItem("user");
-
-    // Redirigir al login
-    window.location.href = "/login";
-  };
+  const permissions = rolePermissions[user.roleId || 1] || {};
 
   return (
     <div className="cpanel-container">
-      <Topbar
-        onEditProfile={handleEditProfile}
-        onToggleSidebar={toggleSidebar}
-        onLogout={handleLogout}
-      />
+      <Topbar user={user} />
+
       <div className="cpanel-body">
         <Sidebar
-          activeSection={activeSection}
-          onSelect={handleSectionChange}
-          sidebarOpen={sidebarOpen}
+          permissions={permissions}
+          activeGestion={activeGestion}
+          activeCrear={activeCrear}
+          onSelectGestion={setActiveGestion}
+          onSelectCrear={setActiveCrear}
         />
-        <div className="cpanel-content">
-          {activeSection === "Dashboard" && <h2>Dashboard</h2>}
-          {activeSection === "Noticias" && <h2>Noticias</h2>}
-          {activeSection === "Categorías" && <h2>Categorías</h2>}
-          {activeSection === "Publicidad" && <h2>Publicidad</h2>}
-          {activeSection === "Comentarios" && <h2>Comentarios</h2>}
-        </div>
+        <Content
+          activeGestion={activeGestion}
+          activeCrear={activeCrear}
+        />
       </div>
-      {showEditProfile && <EditProfile onClose={closeEditProfile} />}
     </div>
   );
 };

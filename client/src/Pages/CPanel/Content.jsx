@@ -1,10 +1,11 @@
-// src/Pages/CPanel/Content.jsx
+// Content.jsx
 import React from "react";
+import CategoryManager from "./Management/CategoryManager";
 
-const Content = ({ children }) => {
+const Content = ({ activeGestion, activeCrear }) => {
   return (
-    <div style={{ flex: 1, padding: "20px" }}>
-      {children || <p>Aquí se renderizará el contenido del panel.</p>}
+    <div style={{ padding: "20px" }}>
+      <CategoryManager activeGestion={activeGestion} activeCrear={activeCrear} />
     </div>
   );
 };

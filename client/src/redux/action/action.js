@@ -1,37 +1,136 @@
 // actions/action.js
 import axios from "axios";
-import { LOGIN } from "./datatype"; // importamos el datatype
+import { LOGIN, LOGOUT, CREATE_CATEGORY, GET_CATEGORIES, UPDATE_CATEGORIES, DELETE_CATEGORY } from "./datatype";
 
+// 🔹 Constante global para la API
+const API_URL = process.env.REACT_APP_API_URL;
+
+// LOGIN
 export const login = (username, password) => async (dispatch) => {
   try {
     console.log("Iniciando login con:", { username, password });
 
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`, { username, password });
-    
+    const response = await axios.post(`${API_URL}/login`, {
+      username,
+      password
+    });
+
     console.log("Respuesta completa del back:", response.data);
 
-    // Guardamos los datos en localStorage
+    // Guardamos datos en localStorage
     localStorage.setItem("user", JSON.stringify(response.data.user));
     localStorage.setItem("token", response.data.token);
 
-    console.log("Datos guardados en localStorage:", {
-      user: response.data.user,
-      token: response.data.token
-    });
-
-    // Dispatch al reducer usando el datatype
-    console.log("Dispatch LOGIN con type:", LOGIN);
+    // Dispatch al reducer
     dispatch({
       type: LOGIN,
       payload: response.data
     });
 
-    console.log("Dispatch realizado, redirigiendo al cpanel...");
-    
-    // Redirigimos al cpanel
-   // window.location.href = "/cpanel"; 
+    console.log("Login correcto");
 
   } catch (error) {
-    console.error("Error en login:", error.response ? error.response.data : error);
+    console.error(
+      "Error en login:",
+      error.response ? error.response.data : error
+    );
   }
+};
+
+// LOGOUT
+export const logout = () => {
+  return {
+    type: LOGOUT
+  };
+};
+
+// CATEGORIAS
+export const createCategory = (data) => {
+  return async (dispatch) => {
+    try {
+
+      const token = localStorage.getItem("token");
+
+      const response = await axios.post(
+        `${API_URL}/category`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      dispatch({
+        type: CREATE_CATEGORY,
+        payload: response.data
+      });
+
+      console.log("Categoria creada:", response.data);
+
+    } catch (error) {
+      console.error(
+        "Error creando categoria:",
+        error.response ? error.response.data : error
+      );
+    }
+  };
+};
+
+export const getCategories = () => {
+  return async (dispatch) => {
+    try {
+      const response =await axios.get(`${API_URL}/category`);
+
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: response.data, //array categorias
+      });
+    }
+    catch (error) {
+      console.error("Error al traer categorias", error)
+    }
+  }
+}
+
+// 🔹 ACTUALIZAR CATEGORÍA
+export const updateCategory = (id, data) => {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem("token"); // 🔹 obtenemos token
+      const response = await axios.put(
+        `${API_URL}/category/${id}`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${token}` } // 🔹 header necesario
+        }
+      );
+      
+      dispatch({
+        type: UPDATE_CATEGORIES,
+        payload: response.data, // enviamos la categoría actualizada
+      });
+
+      return response.data; // para poder usar await desde el componente
+    } catch (error) {
+      console.error("Error actualizando categoría:", error);
+      throw error;
+    }
+  };
+};
+
+// DELETE CATEGORY
+export const deleteCategory = (id) => {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${API_URL}/category/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      dispatch({ type: DELETE_CATEGORY, payload: id });
+    } catch (error) {
+      console.error("Error borrando categoría:", error);
+      throw error;
+    }
+  };
 };
