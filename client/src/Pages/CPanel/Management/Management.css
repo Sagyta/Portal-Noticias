@@ -1,97 +1,296 @@
 /* Reset de listas y margen/padding */
 ul, li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 /* Contenedor de la lista */
-.category-list-container {
-    width: 100%;           /* ocupar todo el ancho del content */
-    max-width: 100%;       /* evitar que se limite por un parent */
-    box-sizing: border-box;
-  }
+.list-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;               /* toma todo el ancho del contenedor padre */
+  box-sizing: border-box; /* padding incluido en el ancho */
+  width: 100%;           
+  padding: 0; 
+}
 
 /* Lista de elementos */
-.category-list li {
-    display: flex;
-    justify-content: space-between; /* nombre a la izquierda, botones a la derecha */
-    align-items: center;
-    width: 100%; /* ocupar todo el ancho del contenedor */
-    padding: 10px 15px;
-    border-bottom: 1px solid #ccc;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    box-sizing: border-box; /* para que el padding no rompa el ancho */
-  }
-  
-  /* Nombre de categoría */
-  .category-name {
-    font-weight: 500;
-    color: #0f2a44;
-    flex: 1; /* ocupa todo el espacio que queda */
-  }
-  
-  /* Contenedor de botones */
-  .category-buttons {
-    display: flex;
-    gap: 10px; /* separación entre Editar y Borrar */
-    min-width: 120px; /* asegura que ambos botones estén a la derecha sin moverse */
-    justify-content: flex-end; /* pegados a la derecha */
-  }
-  
-  /* Botones */
-  .btn {
-    height: 32px;
-    padding: 0 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-  }
-  
-  .btn-edit {
-    background-color: #0f2a44;
-    color: white;
-  }
-  
-  .btn-edit:hover {
-    background-color: #1a3b63;
-  }
-  
-  .btn-delete {
-    background-color: #e63946;
-    color: white;
-  }
-  
-  .btn-delete:hover {
-    background-color: #b32a37;
-  }
-  
-  /* Inputs de formulario */
-  .form-input {
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 250px;
-    margin-right: 10px;
-  }
-  
-  .form-button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #0f2a44;
-    color: white;
-    cursor: pointer;
-    font-weight: 500;
-  }
-  
-  .form-button:hover {
-    background-color: #1a3b63;
-  }
+.list {
+  width: 100%;            /* ocupa todo el ancho del contenedor padre */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Lista de elementos */
+.list li {
+  display: flex;
+  justify-content: space-between; /* nombre a la izquierda, botones a la derecha */
+  align-items: center;
+  width: 100%;                  /* ocupa todo el ancho de .list */
+  padding: 10px 15px;
+  border-bottom: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Nombre de elemento */
+.item-name {
+  font-weight: 500;
+  color: #0f2a44;
+  flex: 1; /* ocupa todo el espacio que queda */
+}
+
+/* Contenedor de botones */
+.item-buttons {
+  display: flex;
+  gap: 10px; /* separación entre botones */
+  min-width: 120px; /* asegura que ambos botones estén a la derecha */
+  justify-content: flex-end;
+}
+
+/* Botones */
+.btn {
+  height: 32px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.btn-edit {
+  background-color: #0f2a44;
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #1a3b63;
+}
+
+.btn-delete {
+  background-color: #e63946;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #b32a37;
+}
+
+/* Inputs de formulario */
+.form-input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+  /*margin-right: 10px;*/
+  margin: 10px;
+}
+.form-textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 98%;
+  margin:auto;
+  height: 400px;
+}
+
+.form-button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0f2a44;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  margin: 10px 10px 0px 0px;
+}
+
+.form-button:hover {
+  background-color: #1a3b63;
+}
+
+/* SWALL ALERT*/
+/* Estilos globales para todos los modales Swal */
+.swal2-popup {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center; /* centra vertical */
+  align-items: center;     /* centra horizontal */
+  text-align: center;      /* centra el texto */
+  padding: 20px;
+  max-width: 400px !important;
+  box-sizing: border-box;
+}
+
+.swal2-title {
+  color: #0f2a44;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Input centrado y ancho completo */
+.swal2-input {
+  width: 100% !important;   /* ocupa todo el ancho del popup */
+  max-width: 100%;          /* evita que se salga */
+  box-sizing: border-box;
+  margin: 15px 0 !important; /* margen vertical para separarlo del título y botones */
+  text-align: center;       /* texto centrado dentro del input */
+}
+
+.swal2-confirm {
+  background-color: #0f2a44 !important;
+  color: white !important;
+  border-radius: 5px;
+  padding: 8px 20px;
+  margin-right: 10px;
+}
+
+.swal2-confirm:hover {
+  background-color: #1a3b63 !important;
+}
+
+.swal2-cancel {
+  background-color: #e63946 !important;
+  color: white !important;
+  border-radius: 5px;
+  padding: 8px 20px;
+}
+
+.swal2-cancel:hover {
+  background-color: #b32a37 !important;
+}
+
+/* Management.css o un CSS global que cargue con CPanel */
+.swal2-popup .swal2-input::placeholder,
+.swal2-popup .swal2-textarea::placeholder {
+  font-size: 0.8rem !important;
+  color: rgb(90, 90, 90) !important;
+}
+.swal2-popup .swal2-input,
+.swal2-popup .swal2-textarea,
+.swal2-popup select {
+  font-size: 0.8rem !important;
+  color: rgb(90, 90, 90) !important;
+  padding: 5px;
+  margin: 0 5  !important
+}
+.news-category-select {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.8rem; /* tamaño de letra similar a los inputs del proyecto */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: rgb(90, 90, 90) !important;
+  margin-top: 20px;
+}
+
+.swal2-popup .swal2-textarea{
+  width: 100%;
+  padding: 0.5rem;
+  margin: auto ;
+}
+/* Headers de NewsManager */
+.news-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: justify;
+  gap: 10px;
+  padding: 10px 15px;
+  margin: 0px 10px 0px 0px;
+  font-weight: bold;
+  border-bottom: 1px solid #0f2a44;
+  border-radius: 5px 5px 0 0;
+  background-color: #f0f0f0;
+}
+
+/* Items de noticias */
+.news-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* separa los spans entre sí */
+  padding: 10px 15px;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 0 0 5px 5px;
+}
+
+/* Columnas específicas */
+.news-title {
+  flex: 2;
+  color: #0f2a44;
+  text-align: justify;
+}
+
+.news-category {
+  flex: 1;
+  color: #1a3b63;
+  text-align: justify;
+}
+
+.news-author {
+  flex: 1;
+  color: #0f2a44;
+  text-align: justify;
+}
+.news-date {
+  flex: 1;             /* igual que author y category para alinear */
+  color: #0f2a44;
+  text-align: justify;
+}
+
+.news-thumbnail {
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.news-thumbnail img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Editor de texto */
+.ql-container {
+  min-height: 300px;
+}
+
+.ql-editor {
+  min-height: 270px;
+  font-size: 16px;
+}
+
+/* separación del editor */
+.ql-toolbar {
+  margin-top: 10px;
+}
+
+/* boton volver */
+
+.btn-back{
+  margin-bottom: 15px;
+  padding: 6px 12px;
+  background:#0f2a44;
+  color:white;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+.btn-back:hover{
+  background:#16395c;
+}

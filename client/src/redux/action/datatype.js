@@ -4,4 +4,7 @@ export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const UPDATE_CATEGORIES  = "UPDATE_CATEGORIES";
 export const DELETE_CATEGORY  = "DELETE_CATEGORY";
-
+export const GET_NEWS  = "GET_NEWS";
+export const CREATE_NEWS  = "CREATE_NEWS";
+export const UPDATE_NEWS  = "UPDATE_NEWS";
+export const DELETE_NEWS  = "DELETE_NEWS";

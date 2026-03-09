@@ -1,6 +1,10 @@
-import { LOGIN, LOGOUT, CREATE_CATEGORY, GET_CATEGORIES, UPDATE_CATEGORIES, DELETE_CATEGORY } from "../action/datatype";
+import { 
+  LOGIN, LOGOUT, 
+  CREATE_CATEGORY, GET_CATEGORIES, UPDATE_CATEGORIES, DELETE_CATEGORY,
+  CREATE_NEWS, GET_NEWS, UPDATE_NEWS, DELETE_NEWS, } from "../action/datatype";
 
 const initialState = {
+  news: [],
   user: localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null,
@@ -43,7 +47,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
       };
     
     case UPDATE_CATEGORIES:
-      console.log("Rducer update categories", payload);
+      console.log("Reducer update categories", payload);
       return {
         ...state,
         categories: state.categories.map(cat =>
@@ -55,6 +59,26 @@ const rootReducer = (state = initialState, { type, payload }) => {
           ...state,
           categories: state.categories.filter(cat => cat.id !== payload),
         };
+
+        case GET_NEWS:
+          return { ...state, news: payload };
+    
+        case CREATE_NEWS:
+          return { ...state, news: [...state.news, payload] };
+    
+        case UPDATE_NEWS:
+          return {
+            ...state,
+            news: state.news.map((item) =>
+              item.id === payload.id ? payload : item
+            ),
+          };
+    
+        case DELETE_NEWS:
+          return {
+            ...state,
+            news: state.news.filter((item) => item.id !== payload),
+          };
 
     default:
       return state;

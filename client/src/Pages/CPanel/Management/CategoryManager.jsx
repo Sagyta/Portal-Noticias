@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createCategory, getCategories, updateCategory, deleteCategory } from "../../../redux/action/action";
 import Swal from "sweetalert2";
-import "./Management.css"
+import "./Management.css";
 
 const CategoryManager = ({ activeGestion, activeCrear }) => {
   const dispatch = useDispatch();
@@ -63,16 +63,11 @@ const CategoryManager = ({ activeGestion, activeCrear }) => {
       try {
         await dispatch(updateCategory(id, { name: newName }));
 
-        // 🔹 refresca lista en Gestión al instante
         if (activeGestion === "Category") {
           await dispatch(getCategories());
         }
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Actualizada',
-          text: `Categoría "${newName}" actualizada correctamente`
-        });
+        Swal.fire({ icon: 'success', title: 'Actualizada', text: `Categoría "${newName}" actualizada correctamente` });
       } catch (error) {
         Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo actualizar la categoría' });
         console.error("Error actualizando categoría:", error);
@@ -81,35 +76,27 @@ const CategoryManager = ({ activeGestion, activeCrear }) => {
   };
 
   // =========================================
-  // 🔹 BORRAR CATEGORÍA (placeholder)
+  // 🔹 BORRAR CATEGORÍA
   // =========================================
   const handleDelete = async (id, name) => {
-    console.log("BORRAR categoría con id:", id);
     const result = await Swal.fire({
-        title: `¿Borrar categoría "${name}"?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Sí, borrar",
-        cancelButtonText: "Cancelar",
-      });
-    
-      if (result.isConfirmed) {
-        try {
-          await dispatch(deleteCategory(id));
-          Swal.fire({
-            icon: "success",
-            title: "Eliminada",
-            text: `Categoría "${name}" borrada correctamente`,
-          });
-        } catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "No se pudo borrar la categoría",
-          });
-        }
+      title: `¿Borrar categoría "${name}"?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, borrar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await dispatch(deleteCategory(id));
+        Swal.fire({ icon: "success", title: "Eliminada", text: `Categoría "${name}" borrada correctamente` });
+        if (activeGestion === "Category") dispatch(getCategories());
+      } catch (error) {
+        Swal.fire({ icon: "error", title: "Error", text: "No se pudo borrar la categoría" });
       }
-    };
+    }
+  };
 
   // =========================================
   // 🔹 RENDERIZADO CONDICIONAL
@@ -121,7 +108,8 @@ const CategoryManager = ({ activeGestion, activeCrear }) => {
       <div>
         <h2>Crear Categoría</h2>
         <form onSubmit={handleSubmit}>
-          <input className="form-input"
+          <input
+            className="form-input"
             type="text"
             placeholder="Nombre de la categoría"
             value={name}
@@ -136,15 +124,17 @@ const CategoryManager = ({ activeGestion, activeCrear }) => {
   // LISTA GESTIÓN
   if (activeGestion === "Category") {
     return (
-      <div className="category-list-container">
+      <div className="list-container">
         <h2>Gestiona tus categorías</h2>
-        <ul className="category-list">
+        <ul className="list">
           {categories.length > 0 ? (
             categories.map(cat => (
               <li key={cat.id}>
-                {cat.name}{" "}
-                <button className="btn btn-edit" onClick={() => handleEdit(cat.id, cat.name)}>Editar</button>{" "}
-                <button className="btn btn-delete" onClick={() => handleDelete(cat.id, cat.name)}>Borrar</button>
+                <span className="item-name">{cat.name}</span>
+                <div className="item-buttons">
+                  <button className="btn btn-edit" onClick={() => handleEdit(cat.id, cat.name)}>Editar</button>
+                  <button className="btn btn-delete" onClick={() => handleDelete(cat.id, cat.name)}>Borrar</button>
+                </div>
               </li>
             ))
           ) : (

@@ -1,6 +1,9 @@
 // actions/action.js
 import axios from "axios";
-import { LOGIN, LOGOUT, CREATE_CATEGORY, GET_CATEGORIES, UPDATE_CATEGORIES, DELETE_CATEGORY } from "./datatype";
+import { 
+  LOGIN, LOGOUT, 
+  CREATE_CATEGORY, GET_CATEGORIES, UPDATE_CATEGORIES, DELETE_CATEGORY,
+  CREATE_NEWS, GET_NEWS, UPDATE_NEWS, DELETE_NEWS, } from "./datatype";
 
 // 🔹 Constante global para la API
 const API_URL = process.env.REACT_APP_API_URL;
@@ -133,4 +136,64 @@ export const deleteCategory = (id) => {
       throw error;
     }
   };
+};
+
+// =========================================
+// 🔹 OBTENER TODAS LAS NOTICIAS
+// =========================================
+export const getNews = () => async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}/new`);
+    dispatch({ type: GET_NEWS, payload: response.data });
+  } catch (error) {
+    console.error("Error obteniendo noticias:", error);
+    throw error;
+  }
+};
+
+// =========================================
+// 🔹 CREAR NOTICIA
+// =========================================
+export const createNews = (data, token) => async (dispatch) => {
+  try {
+    const response = await axios.post(`${API_URL}/new`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    dispatch({ type: CREATE_NEWS, payload: response.data });
+    return response.data;
+  } catch (error) {
+    console.error("Error creando noticia:", error);
+    throw error;
+  }
+};
+
+// =========================================
+// 🔹 ACTUALIZAR NOTICIA
+// =========================================
+export const updateNews = (id, data, token) => async (dispatch) => {
+  try {
+    const response = await axios.put(`${API_URL}/new/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    dispatch({ type: UPDATE_NEWS, payload: response.data });
+    return response.data;
+  } catch (error) {
+    console.error("Error actualizando noticia:", error);
+    throw error;
+  }
+};
+
+// =========================================
+// 🔹 BORRAR NOTICIA
+// =========================================
+export const deleteNews = (id, token) => async (dispatch) => {
+  try {
+    await axios.delete(`${API_URL}/new/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    dispatch({ type: DELETE_NEWS, payload: id });
+  } catch (error) {
+    console.error("Error borrando noticia:", error);
+    throw error;
+  }
 };
