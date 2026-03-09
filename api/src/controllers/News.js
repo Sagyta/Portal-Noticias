@@ -45,7 +45,7 @@ const createNews = async (req, res, next) => {
   try {
     const { title, subtitle, text, image, videoLink, categoryId, userId, authorId } = req.body;
 
-    if (!title || !subtitle || !text || !image) {
+    if (!title || !subtitle || !text ) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
 
