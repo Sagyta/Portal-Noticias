@@ -1,43 +1,42 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux"; // 🔹 Import dispatch
-import { logout } from "../../redux/action/action"; // 🔹 Import acción logout
-import { useNavigate } from "react-router-dom"; // 🔹 Import navigate
-import EditProfile from "./EditProfile"; // Importamos el componente de modal
-import "./CPanel.css"; // Usamos la misma hoja de estilos
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/action/action";
+import { useNavigate } from "react-router-dom";
+import EditProfile from "./EditProfile";
+import "./CPanel.css";
 
+const Topbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-const Topbar = ({ user }) => {
+  const user = useSelector((state) => state.user); // 🔹 usuario logueado desde Redux
+
   const [openDropdown, setOpenDropdown] = useState(false);
-  const [showModal, setShowModal] = useState(false); // Estado para abrir el modal
-  const dispatch = useDispatch(); // 🔹 Inicializamos dispatch
-  const navigate = useNavigate(); // 🔹 Inicializamos navigate
+  const [showModal, setShowModal] = useState(false);
 
   const toggleDropdown = () => setOpenDropdown(!openDropdown);
 
   const handleEditProfile = () => {
-    setShowModal(true); // Mostrar el modal
-    setOpenDropdown(false); // Cerrar el dropdown al abrir el modal
+    setShowModal(true);
+    setOpenDropdown(false);
   };
 
-  // 🔹 Nueva función para logout
   const handleLogout = () => {
-    dispatch(logout()); // limpia Redux
-    localStorage.removeItem("user");
-    localStorage.removeItem("token"); // opcional, si no lo limpia la acción
-    navigate("/login", { replace: true }); // redirige al login
+    dispatch(logout());
+    navigate("/login", { replace: true });
   };
 
-  const handleCloseModal = () => setShowModal(false); // Cerrar el modal
+  const handleCloseModal = () => setShowModal(false);
 
   return (
-    
     <div className="topbar">
       <div className="topbar-logo">Radar Informativo</div>
+
       <div className="topbar-user-container">
         <div className="topbar-user" onClick={toggleDropdown}>
-        {console.log("Topbar user:", user)}
-        {user ? `${user.username} (${user.roleName})` : null} ▼
+          {user ? `${user.username} (${user.roleName})` : null} ▼
         </div>
+
         {openDropdown && (
           <div className="topbar-dropdown">
             <button className="dropdown-item" onClick={handleEditProfile}>
@@ -51,7 +50,7 @@ const Topbar = ({ user }) => {
         )}
       </div>
 
-      {showModal && <EditProfile onClose={handleCloseModal} />}
+      {showModal && <EditProfile onClose={handleCloseModal} user={user} />}
     </div>
   );
 };

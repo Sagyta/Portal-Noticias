@@ -152,7 +152,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
     return (
       <div>
         <button
-            className="btn-back"
+            className="manager-btn-back"
             onClick={() => setEditingNews(null)}
         >
             ← Volver a Gestión
@@ -160,7 +160,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
         <h2>Editar Noticia</h2>
 
         <input
-          className="form-input"
+          className="manager-form-input"
           type="text"
           value={editingNews.title}
           onChange={(e) =>
@@ -169,7 +169,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
         />
 
         <input
-          className="form-input"
+          className="manager-form-input"
           type="text"
           value={editingNews.subtitle}
           onChange={(e) =>
@@ -178,7 +178,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
         />
 
         <input
-          className="form-input"
+          className="manager-form-input"
           type="text"
           value={editingNews.image || ""}
           placeholder="URL imagen"
@@ -188,7 +188,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
         />
 
         <input
-          className="form-input"
+          className="manager-form-input"
           type="text"
           value={editingNews.videoLink || ""}
           placeholder="URL video"
@@ -206,7 +206,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
         />
 
         <select
-          className="news-category-select"
+          className="manager-select"
           value={editingNews.categoryId}
           onChange={(e) =>
             setEditingNews({ ...editingNews, categoryId: e.target.value })
@@ -219,12 +219,12 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
           ))}
         </select>
 
-        <button className="form-button" onClick={handleUpdate}>
+        <button className="manager-form-button" onClick={handleUpdate}>
           Guardar cambios
         </button>
 
         <button
-          className="form-button"
+          className="manager-form-button"
           onClick={() => setEditingNews(null)}
         >
           Cancelar
@@ -242,7 +242,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
         <form onSubmit={handleSubmit}>
 
           <input
-            className="form-input"
+            className="manager-form-input"
             type="text"
             placeholder="Título"
             value={title}
@@ -250,7 +250,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
           />
 
           <input
-            className="form-input"
+            className="manager-form-input"
             type="text"
             placeholder="Subtítulo"
             value={subtitle}
@@ -258,7 +258,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
           />
 
           <input
-            className="form-input"
+            className="manager-form-input"
             type="text"
             placeholder="URL imagen"
             value={image}
@@ -266,7 +266,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
           />
 
           <input
-            className="form-input"
+            className="manager-form-input"
             type="text"
             placeholder="URL video"
             value={videoLink}
@@ -280,7 +280,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
           />
 
           <select
-            className="news-category-select"
+            className="manager-select"
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
           >
@@ -294,7 +294,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
 
           </select>
 
-          <button className="form-button" type="submit">
+          <button className="manager-form-button" type="submit">
             Crear
           </button>
 
@@ -306,40 +306,41 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
 
   if (activeGestion === "News") {
     return (
-      <div className="list-container">
+      <div className="manager-list-container">
 
         <h2>Gestión de Noticias</h2>
 
-        <div className="list-header news-header">
-          <span className="news-title">Título</span>
-          <span className="news-category">Categoría</span>
-          <span className="news-author">Autor</span>
-          <span className="news-date">Fecha</span>
-          <div className="item-buttons">Acciones</div>
+        <div className="manager-list-header manager-header">
+        <span className="manager-title-short">Img</span>
+          <span className="manager-title-long">Título</span>
+          <span className="manager-title">Categoría</span>
+          <span className="manager-title">Autor</span>
+          <span className="manager-title">Fecha</span>
+          <div className="manager-title">Acciones</div>
         </div>
 
-        <ul className="list">
+        <ul className="manager-list">
 
           {news.length > 0 ? (
 
             news.map((n) => (
 
-              <li key={n.id} className="list-item news-item">
-                <span className="news-thumbnail">
+              <li key={n.id} className="manager-list-item manager-item">
+                <span className="manager-thumbnail">
                 {n.image ? <img src={n.image} alt={n.title} /> : <span>No Img</span>}
                 </span>
-                <span className="news-title">{n.title}</span>
-                <span className="news-category">{n.category?.name}</span>
-                <span className="news-author">{n.author?.displayName}</span>
-                <span className="news-date">
+                <span className="manager-item-long">{n.title}</span>
+                <span className="manager-item">{n.category?.name}</span>
+                <span className="manager-item">{n.author?.displayName}</span>
+                <span className="manager-item">
                 {new Date(n.updatedAt || n.createdAt).toLocaleString()}
                 </span>
 
-                <div className="item-buttons">
+                <div className="manager-item-buttons">
 
-                  <button className="btn btn-edit" onClick={() => setEditingNews(n)}>
+                  <button className="manager-btn manager-btn-edit" onClick={() => setEditingNews(n)}>
                     Editar</button>
-                  <button className="btn btn-delete" onClick={() => handleDeleteNews(n.id, n.title)}>
+                  <button className="manager-btn manager-btn-delete" onClick={() => handleDeleteNews(n.id, n.title)}>
                     Borrar </button>
 
                 </div>

@@ -6,7 +6,7 @@ import Content from "./Content";
 import "./CPanel.css";
 
 const CPanel = () => {
-  const [activeGestion, setActiveGestion] = useState("Dashboard");
+  const [activeGestion, setActiveGestion] = useState(null);
   const [activeCrear, setActiveCrear] = useState(null);
 
   const user = useSelector(state => state.user);
@@ -16,8 +16,8 @@ const CPanel = () => {
   // Objeto mínimo de permisos por rol
   const rolePermissions = {
     1: {
-      Gestión: ["News","Category","Comments","Author","Users","Roles","Ads Banner","Ads Lateral"],
-      Crear: ["News","Category","Author","Users","Roles","Ads Banner","Ads Lateral"]
+      Gestión: ["News","Category","Comments","Author","Users","Role","Ads Banner","Ads Lateral"],
+      Crear: ["News","Category","Author","Users","Role","Ads Banner","Ads Lateral"]
     },
     2: {
       Gestión: ["News","Category","Comments","Ads Banner","Ads Lateral"],
@@ -46,6 +46,7 @@ const CPanel = () => {
         <Content
           activeGestion={activeGestion}
           activeCrear={activeCrear}
+          
         />
       </div>
     </div>

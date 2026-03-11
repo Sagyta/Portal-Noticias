@@ -1,35 +1,41 @@
 import React from "react";
 
 const Sidebar = ({ permissions, activeGestion, activeCrear, onSelectGestion, onSelectCrear }) => {
-  const sections = [
-    { group: "Dashboard", items: [] },
-    { group: "Gestión", items: [] }, // items vienen de permissions
-    { group: "Crear", items: [] }
-  ];
 
   return (
     <div className="sidebar">
-      {sections.map((section, idx) => {
-        const items = permissions[section.group] || [];
+
+      {/* Dashboard como botón */}
+      <button
+        className={`sidebar-item dashboard-btn ${!activeGestion && !activeCrear ? "active" : ""}`}
+        onClick={() => {
+          onSelectGestion(null);
+          onSelectCrear(null);
+        }}
+      >
+        CPanel
+      </button>
+
+      {/* Secciones Gestión y Crear */}
+      {["Gestión", "Crear"].map((group, idx) => {
+        const items = permissions[group] || [];
 
         return (
           <div key={idx} className="sidebar-section">
-            <div className="sidebar-title">{section.group}</div>
+            <div className="sidebar-title">{group}</div>
 
             {items.map(item => {
-              // Estado activo independiente por grupo
-              const isActive = section.group === "Gestión"
+              const isActive = group === "Gestión"
                 ? activeGestion === item
                 : activeCrear === item;
 
               const handleClick = () => {
-                // Activar solo este grupo, desactivar el otro
-                if (section.group === "Gestión") {
+                if (group === "Gestión") {
                   onSelectGestion(item);
-                  onSelectCrear(null); // desactiva Crear
+                  onSelectCrear(null);
                 } else {
                   onSelectCrear(item);
-                  onSelectGestion(null); // desactiva Gestión
+                  onSelectGestion(null);
                 }
               };
 
@@ -46,6 +52,7 @@ const Sidebar = ({ permissions, activeGestion, activeCrear, onSelectGestion, onS
           </div>
         );
       })}
+
     </div>
   );
 };

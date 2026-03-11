@@ -109,13 +109,13 @@ const CategoryManager = ({ activeGestion, activeCrear }) => {
         <h2>Crear Categoría</h2>
         <form onSubmit={handleSubmit}>
           <input
-            className="form-input"
+            className="manager-form-input"
             type="text"
             placeholder="Nombre de la categoría"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <button className="form-button" type="submit">Crear</button>
+          <button className="manager-form-button" type="submit">Crear</button>
         </form>
       </div>
     );
@@ -124,16 +124,22 @@ const CategoryManager = ({ activeGestion, activeCrear }) => {
   // LISTA GESTIÓN
   if (activeGestion === "Category") {
     return (
-      <div className="list-container">
+      <div className="manager-list-container">
         <h2>Gestiona tus categorías</h2>
-        <ul className="list">
+          {/* Header */}
+        <div className="manager-list-header manager-header">
+          <span className="manager-title">Nombre de la categoría</span>
+          <div className="manager-item-buttons">Acciones</div>
+        </div>
+
+        <ul className="manager-list">
           {categories.length > 0 ? (
             categories.map(cat => (
               <li key={cat.id}>
-                <span className="item-name">{cat.name}</span>
-                <div className="item-buttons">
-                  <button className="btn btn-edit" onClick={() => handleEdit(cat.id, cat.name)}>Editar</button>
-                  <button className="btn btn-delete" onClick={() => handleDelete(cat.id, cat.name)}>Borrar</button>
+                <span className="manager-item">{cat.name}</span>
+                <div className="manager-item-buttons">
+                  <button className="manager-btn manager-btn-edit" onClick={() => handleEdit(cat.id, cat.name)}>Editar</button>
+                  <button className="manager-btn manager-btn-delete" onClick={() => handleDelete(cat.id, cat.name)}>Borrar</button>
                 </div>
               </li>
             ))
