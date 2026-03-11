@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { createUser, getUsers, getUserById, updateUser,deleteUser } = require('../controllers/User');
+const { createUser, getUsers, getUserById, updateUser,deleteUser, resetUserPassword } = require('../controllers/User');
 const verifyJWT = require('../middleware/verifyJWT');
 const checkRole = require('../middleware/checkRole');
 
@@ -24,5 +24,7 @@ router.put('/:id', updateUser);
 
 // 👑 Solo Admin elimina
 router.delete('/:id', checkRole([1]), deleteUser);
+
+router.post('/:id/reset-password', resetUserPassword);
 
 module.exports = router;

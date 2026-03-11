@@ -182,11 +182,50 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+// =======================
+// RESET PASSWORD USUARIO
+// =======================
+
+const resetUserPassword = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    const loggedUser = req.user; // viene del token
+    const isAdmin = loggedUser.roleId === 1;
+
+    // 🔒 Solo admin puede resetear password
+    if (!isAdmin) {
+      return res.status(403).json({ error: 'No tienes permisos para resetear la contraseña' });
+    }
+
+    // 🔹 Generar nuevo password temporal
+    const newPassword = generatePassword();
+
+    // 🔐 Guardarlo en la base (aquí si usas bcrypt lo puedes hashear)
+    user.password = newPassword; // O bcrypt.hash(newPassword, 10) si quieres hashear
+    await user.save();
+
+    res.status(200).json({
+      message: 'Contraseña reseteada correctamente',
+      temporaryPassword: newPassword
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   createUser,
   getUsers,
   getUserById,
   updateUser,
-  deleteUser
+  deleteUser,
+  resetUserPassword
 };
