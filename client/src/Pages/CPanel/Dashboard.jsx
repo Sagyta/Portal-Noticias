@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "../../redux/action/action";
+import { FaNewspaper } from "react-icons/fa"; // ejemplo de ícono para noticias
 
 const Dashboard = () => {
 
@@ -57,7 +58,7 @@ const timeAgo = (date) => {
         <div className="card-divider"></div>
 
         <div className="news-content">
-        <span className="news-icon">📰</span>
+        <FaNewspaper className="news-icon" />
         <span className="news-number">{news?.length}</span>
         </div>
 

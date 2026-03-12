@@ -36,6 +36,7 @@ ul, li {
   background-color: #f9f9f9;
   border-radius: 5px;
   box-sizing: border-box;
+  font-size: 13px;
 }
 
 .manager-header { /* titulos del gestion (lo q trae el back)*/
@@ -141,6 +142,40 @@ ul, li {
 
 .manager-btn-delete:hover {
   background-color: #b32a37;
+}
+
+/* 🔹 contenedor del filtro de noticias */
+.manager-filter{
+  display: flex;
+  justify-content: flex-end; /* lo manda a la derecha */
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* 🔹 botones del filtro */
+.manager-filter button{
+  padding: 6px 14px;
+  border: 1px solid #d0d7de;
+  background-color: #ffffff;
+  color: #333;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* 🔹 hover */
+.manager-filter button:hover{
+  background-color: #0f2a44;
+  color: #ffffff;
+  border-color: #0f2a44;
+}
+
+/* 🔹 botón activo */
+.manager-filter button.active{
+  background-color: #0f2a44;
+  color: #ffffff;
+  border-color: #0f2a44;
 }
 
 /* Inputs de formulario */

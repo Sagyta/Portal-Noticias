@@ -1,11 +1,25 @@
 import React from "react";
+import { FaHome, FaNewspaper, FaFolder, FaComment, FaUserEdit, FaUsers, FaKey, FaBullhorn, FaImages } from "react-icons/fa";
 
 const Sidebar = ({ permissions, activeGestion, activeCrear, onSelectGestion, onSelectCrear }) => {
+
+  // Mapa de iconos por item
+  const iconsMap = {
+    Dashboard: <FaHome />,
+  News: <FaNewspaper />,
+  Category: <FaFolder />,
+  Comments: <FaComment />,
+  Author: <FaUserEdit />,
+  Users: <FaUsers />,
+  Role: <FaKey />,
+  "Ads Banner": <FaBullhorn />,
+  "Ads Lateral": <FaImages />
+  };
 
   return (
     <div className="sidebar">
 
-      {/* Dashboard como botón */}
+      {/* Dashboard como título especial */}
       <button
         className={`sidebar-item dashboard-btn ${!activeGestion && !activeCrear ? "active" : ""}`}
         onClick={() => {
@@ -13,6 +27,7 @@ const Sidebar = ({ permissions, activeGestion, activeCrear, onSelectGestion, onS
           onSelectCrear(null);
         }}
       >
+        <span className="sidebar-icon">{iconsMap["Dashboard"]}</span>
         CPanel
       </button>
 
@@ -45,6 +60,7 @@ const Sidebar = ({ permissions, activeGestion, activeCrear, onSelectGestion, onS
                   className={`sidebar-item ${isActive ? "active" : ""}`}
                   onClick={handleClick}
                 >
+                  <span className="sidebar-icon">{iconsMap[item]}</span>
                   {item}
                 </button>
               );

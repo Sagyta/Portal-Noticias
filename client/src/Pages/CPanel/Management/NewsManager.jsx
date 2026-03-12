@@ -19,6 +19,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
   const [authorId, setAuthorId] = useState(user?.id || "");
 
   const [editingNews, setEditingNews] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("all");
 
   useEffect(() => {
     if (activeGestion === "News") {
@@ -32,8 +33,8 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
     }
   }, [dispatch, activeCrear, activeGestion]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // 🔹 CREAR NOTICIA (BORRADOR O PUBLICADA)
+  const handleSubmit = async (status) => {
 
     if (!title.trim() || !text.trim() || !categoryId || !authorId) {
       Swal.fire({
@@ -53,6 +54,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
       categoryId,
       userId: user?.id,
       authorId: user?.authorId,
+      status: status // 🔹 aquí definimos si es pending o approved
     };
 
     try {
@@ -60,8 +62,8 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
 
       Swal.fire({
         icon: "success",
-        title: "Creada",
-        text: `Noticia "${title}" creada correctamente`,
+        title: status === "approved" ? "Publicada" : "Guardada",
+        text: `Noticia "${title}" ${status === "approved" ? "publicada correctamente" : "guardada como borrador"}`,
       });
 
       setTitle("");
@@ -239,7 +241,8 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
       <div>
         <h2>Crear Noticia</h2>
 
-        <form onSubmit={handleSubmit}>
+        {/* 🔹 IMPORTANTE: evitamos submit automático */}
+        <form onSubmit={(e) => e.preventDefault()}>
 
           <input
             className="manager-form-input"
@@ -294,8 +297,21 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
 
           </select>
 
-          <button className="manager-form-button" type="submit">
-            Crear
+          {/* 🔹 BOTONES NUEVOS */}
+          <button
+            type="button"
+            className="manager-form-button"
+            onClick={() => handleSubmit("pending")}
+          >
+            Guardar borrador
+          </button>
+
+          <button
+            type="button"
+            className="manager-form-button"
+            onClick={() => handleSubmit("approved")}
+          >
+            Publicar
           </button>
 
         </form>
@@ -303,12 +319,26 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
       </div>
     );
   }
-
+// 🔹 filtrar noticias según estado
+const filteredNews = news.filter((n) => {
+  if (statusFilter === "all") return true;
+  return n.status === statusFilter;
+});
   if (activeGestion === "News") {
     return (
       <div className="manager-list-container">
 
         <h2>Gestión de Noticias</h2>
+
+        {/* 🔹 filtro de noticias */}
+<div className="manager-filter">
+
+<button className={statusFilter === "all" ? "active" : ""} onClick={() => setStatusFilter("all")}>Todas</button>
+<button className={statusFilter === "pending" ? "active" : ""} onClick={() => setStatusFilter("pending")}>Pendientes</button>
+<button className={statusFilter === "approved" ? "active" : ""} onClick={() => setStatusFilter("approved")}>Publicadas</button>
+<button className={statusFilter === "rejected" ? "active" : ""} onClick={() => setStatusFilter("rejected")}>Rechazadas</button>
+
+</div>{/* fin filtro */}
 
         <div className="manager-list-header manager-header">
         <span className="manager-title-short">Img</span>
@@ -316,6 +346,7 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
           <span className="manager-title">Categoría</span>
           <span className="manager-title">Autor</span>
           <span className="manager-title">Fecha</span>
+          <span className="manager-title">Estado</span>
           <div className="manager-title">Acciones</div>
         </div>
 
@@ -323,8 +354,11 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
 
           {news.length > 0 ? (
 
-            news.map((n) => (
+            filteredNews.map((n) => {
 
+              console.log("Status de la noticia:", n.status);
+
+              return (
               <li key={n.id} className="manager-list-item manager-item">
                 <span className="manager-thumbnail">
                 {n.image ? <img src={n.image} alt={n.title} /> : <span>No Img</span>}
@@ -336,18 +370,24 @@ const NewsManager = ({ activeGestion, activeCrear }) => {
                 {new Date(n.updatedAt || n.createdAt).toLocaleString()}
                 </span>
 
+                <span className="manager-item">
+                  {n.status === "pending" ? "Pendiente" :
+                   n.status === "approved" ? "Publicada" :
+                   n.status === "rejected" ? "Rechazada" : ""}
+                </span>
+
                 <div className="manager-item-buttons">
 
                   <button className="manager-btn manager-btn-edit" onClick={() => setEditingNews(n)}>
                     Editar</button>
+
                   <button className="manager-btn manager-btn-delete" onClick={() => handleDeleteNews(n.id, n.title)}>
                     Borrar </button>
 
                 </div>
 
               </li>
-
-            ))
+            )}) 
 
           ) : (
 
