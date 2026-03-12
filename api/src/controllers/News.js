@@ -46,7 +46,7 @@ const getNewsById = async (req, res, next) => {
 // 🔹 POST crear noticia (solo admin)
 const createNews = async (req, res, next) => {
   try {
-    const { title, subtitle, text, image, videoLink, categoryId, userId, authorId } = req.body;
+    const { title, subtitle, text, image, videoLink, categoryId, userId, authorId, status } = req.body;
 
     if (!title || !subtitle || !text ) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
@@ -60,7 +60,8 @@ const createNews = async (req, res, next) => {
       videoLink: videoLink || '',
       categoryId: categoryId || null,
       userId: userId || null,
-      authorId: authorId || null
+      authorId: authorId || null,
+      status: status || 'pending' // 🔹 se guarda como pendiente
     });
 
     res.status(201).json(news);
