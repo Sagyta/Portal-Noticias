@@ -9,6 +9,7 @@ const commentRoute = require('./Comment')
 const newRoute = require('./News')
 const adsLatRoute = require('./AdsLateral')
 const adsBanRouter = require('./AdsBanner')
+modificationRoute = require('./Modification')
 
 const router = Router();
 
@@ -30,5 +31,7 @@ router.use('/new', newRoute)
 router.use('/adslateral', adsLatRoute)
 //Ruta para publicidad lateral
 router.use('/adsbanner', adsBanRouter)
+//Ruta para modificacion
+router.use('/modification', modificationRoute)
 
 module.exports = router;

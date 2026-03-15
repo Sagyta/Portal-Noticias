@@ -74,7 +74,7 @@ const createNews = async (req, res, next) => {
 const updateNews = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { title, subtitle, text, image, videoLink, categoryId, userId, authorId } = req.body;
+    const { title, subtitle, text, image, videoLink, categoryId, userId, authorId, status } = req.body;
 
     const news = await New.findByPk(id);
     if (!news) return res.status(404).json({ error: "Noticia no encontrada" });
@@ -87,7 +87,8 @@ const updateNews = async (req, res, next) => {
       videoLink: videoLink !== undefined ? videoLink : news.videoLink,
       categoryId: categoryId !== undefined ? categoryId : news.categoryId,
       userId: userId !== undefined ? userId : news.userId,
-      authorId: authorId !== undefined ? authorId : news.authorId
+      authorId: authorId !== undefined ? authorId : news.authorId,
+      status: status !== undefined ? status : news.status
     });
 
     res.status(200).json(news);

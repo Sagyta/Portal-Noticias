@@ -28,7 +28,7 @@ let capsEntries = entries.map(([key, value]) => [key[0].toUpperCase() + key.slic
 sequelize.models = Object.fromEntries(capsEntries);
 
 // Traemos los modelos
-const { New, Comment, User, Category, Role, Author } = sequelize.models;
+const { New, Comment, User, Category, Role, Author, Modification } = sequelize.models;
 
 // ------------------ RELACIONES ------------------ //
 
@@ -59,6 +59,16 @@ User.belongsTo(Author, { foreignKey: 'authorId' });
 // Noticias y autores (para mostrar en la noticia solo el displayName)
 Author.hasMany(New);
 New.belongsTo(Author);
+
+//notificaciones
+User.hasMany(Modification, { foreignKey: 'userId' });
+Modification.belongsTo(User, { foreignKey: 'userId' });
+
+User.hasMany(Modification, { foreignKey: 'receiverId' });
+Modification.belongsTo(User, { foreignKey: 'receiverId' });
+
+New.hasMany(Modification);
+Modification.belongsTo(New);
 
 // ------------------ TEST DE CONEXIÓN ------------------ //
 sequelize.authenticate()
