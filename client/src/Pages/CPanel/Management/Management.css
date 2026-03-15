@@ -112,6 +112,10 @@ ul, li {
   border-radius: 4px;
 }
 
+.manager-img{
+height: 100px;
+}
+
 /* Botones */
 .manager-btn {
   height: 32px;

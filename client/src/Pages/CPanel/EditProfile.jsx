@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-//import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { updateUser } from "../../redux/action/action"; // ajusta la ruta si es distinta
 import "./CPanel.css";
 
 const EditProfile = ({ onClose, user }) => {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState(user?.username || "");
   const [email, setEmail] = useState(user?.email || "");
@@ -15,12 +16,30 @@ const EditProfile = ({ onClose, user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const updatedData = { username, email, password };
-    console.log("Datos a actualizar:", updatedData);
+    // Construir objeto solo con campos modificados
+    const updatedData = {};
+    if (username && username !== user.username) updatedData.username = username;
+    if (email && email !== user.email) updatedData.email = email;
+    if (password) updatedData.password = password;
+
+    console.log("Datos a enviar al backend:", updatedData); // <-- log agregado
+
+    if (Object.keys(updatedData).length === 0) {
+      Swal.fire({
+        icon: "info",
+        title: "Sin cambios",
+        text: "No se modificó ningún dato",
+      });
+      return;
+    }
 
     try {
-      const updatedUser = { ...user, username, email };
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      // Llamar a la misma action que usan los admins
+      await dispatch(updateUser(user.id, updatedData));
+
+      // Actualizar localStorage
+      const newUserData = { ...user, ...updatedData };
+      localStorage.setItem("user", JSON.stringify(newUserData));
 
       Swal.fire({
         icon: "success",

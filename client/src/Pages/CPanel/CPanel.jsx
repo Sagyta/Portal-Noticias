@@ -8,6 +8,7 @@ import "./CPanel.css";
 const CPanel = () => {
   const [activeGestion, setActiveGestion] = useState(null);
   const [activeCrear, setActiveCrear] = useState(null);
+  const [showNotifHistory, setShowNotifHistory] = useState(false);
 
   const user = useSelector(state => state.user);
 
@@ -33,7 +34,9 @@ const CPanel = () => {
 
   return (
     <div className="cpanel-container">
-      <Topbar user={user} />
+      <Topbar 
+        user={user}
+        setShowNotifHistory={setShowNotifHistory} />
 
       <div className="cpanel-body">
         <Sidebar
@@ -46,6 +49,8 @@ const CPanel = () => {
         <Content
           activeGestion={activeGestion}
           activeCrear={activeCrear}
+          showNotifHistory={showNotifHistory}
+          setShowNotifHistory={setShowNotifHistory}
           
         />
       </div>

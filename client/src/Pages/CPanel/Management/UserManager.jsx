@@ -100,42 +100,63 @@ const UserManager = ({ activeGestion, activeCrear }) => {
 // EDITAR USUARIO COMPLETO
 // =========================================
 const handleEdit = (user) => {
-  // Construir opciones HTML para roles
-  const roleOptions = roles.map(r => 
-    `<option value="${r.id}" ${r.id === user.role?.id ? "selected" : ""}>${r.name}</option>`
-  ).join("");
-
-  // Opciones HTML para autores
-  const authorOptions = authors.map(a => 
-    `<option value="${a.id}" ${a.id === user.author?.id ? "selected" : ""}>${a.displayName}</option>`
-  ).join("");
+ 
 
   Swal.fire({
     title: "Editar usuario",
     html: `
-      <input id="swal-username" class="swal2-input" value="${user.username}" placeholder="Username">
-      <input id="swal-email" class="swal2-input" value="${user.email}" placeholder="Email" type="email">
-      <select id="swal-role" class="swal2-input">
-        <option value="">Seleccionar Rol</option>
-        ${roleOptions}
-      </select>
-      <select id="swal-author" class="swal2-input">
-        <option value="">Seleccionar Autor</option>
-        ${authorOptions}
-      </select>
+      <div style="margin-bottom:10px;">
+        <input id="swal-username" class="swal2-input" value="${user.username}" placeholder="Username">
+      </div>
+      <div style="margin-bottom:10px;">
+        <input id="swal-email" class="swal2-input" value="${user.email}" placeholder="Email" type="email">
+      </div>
+      <div style="margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+        <span id="current-role-text">Rol: ${user.role?.name || "Sin rol"}</span>
+        <button type="button" id="change-role-btn" class="swal2-confirm" style="padding:2px 6px; font-size:12px;">Cambiar rol</button>
+      </div>
+      <div style="margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+        <span id="current-author-text">Autor: ${user.author?.displayName || "Sin autor"}</span>
+        <button type="button" id="change-author-btn" class="swal2-confirm" style="padding:2px 6px; font-size:12px;">Cambiar author</button>
+      </div>
     `,
     focusConfirm: false,
+    didOpen: () => {
+      // Cambiar rol
+      document.getElementById("change-role-btn").addEventListener("click", () => {
+        const roleDiv = document.getElementById("current-role-text");
+        roleDiv.outerHTML = `
+          <select id="swal-role" class="swal2-input">
+            <option value="">Seleccionar Rol</option>
+            ${roles.map(r => `<option value="${r.id}" ${r.id === user.role?.id ? "selected" : ""}>${r.name}</option>`).join("")}
+          </select>
+        `;
+      });
+  
+      // Cambiar author
+      document.getElementById("change-author-btn").addEventListener("click", () => {
+        const authorDiv = document.getElementById("current-author-text");
+        authorDiv.outerHTML = `
+          <select id="swal-author" class="swal2-input">
+            <option value="">Seleccionar Autor</option>
+            ${authors.map(a => `<option value="${a.id}" ${a.id === user.author?.id ? "selected" : ""}>${a.displayName}</option>`).join("")}
+          </select>
+        `;
+      });
+    },
     preConfirm: () => {
-      const username = document.getElementById("swal-username").value;
-      const email = document.getElementById("swal-email").value;
-      const roleId = document.getElementById("swal-role").value;
-      const authorId = document.getElementById("swal-author").value;
-
-      if (!username || !email || !roleId || !authorId) {
-        Swal.showValidationMessage("Todos los campos son obligatorios");
-      }
-
-      return { username, email, roleId, authorId };
+      const usernameInput = document.getElementById("swal-username");
+      const emailInput = document.getElementById("swal-email");
+  
+      const roleSelect = document.getElementById("swal-role");
+      const authorSelect = document.getElementById("swal-author");
+  
+      return {
+        username: usernameInput ? usernameInput.value : user.username,
+        email: emailInput ? emailInput.value : user.email,
+        roleId: roleSelect ? roleSelect.value || user.role?.id : user.role?.id,
+        authorId: authorSelect ? authorSelect.value || user.author?.id : user.author?.id
+      };
     }
   }).then(async (result) => {
     if (result.isConfirmed) {
@@ -148,6 +169,7 @@ const handleEdit = (user) => {
       }
     }
   });
+  
 };
 
   // =========================================

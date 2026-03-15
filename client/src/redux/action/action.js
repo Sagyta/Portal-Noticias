@@ -3,10 +3,13 @@ import axios from "axios";
 import { 
   LOGIN, LOGOUT, 
   CREATE_CATEGORY, GET_CATEGORIES, UPDATE_CATEGORIES, DELETE_CATEGORY,
-  CREATE_NEWS, GET_NEWS, UPDATE_NEWS, DELETE_NEWS,
+  CREATE_NEWS, GET_NEWS, UPDATE_NEWS, DELETE_NEWS, GET_NEWS_BY_ID,
   GET_ROLES, CREATE_ROLE, UPDATE_ROLE, DELETE_ROLE,
   GET_AUTHORS, CREATE_AUTHOR, UPDATE_AUTHOR, DELETE_AUTHOR,
-  GET_USERS, CREATE_USER, UPDATE_USER, DELETE_USER,UPDATE_LOGGED_USER } from "./datatype";
+  GET_USERS, CREATE_USER, UPDATE_USER, DELETE_USER,UPDATE_LOGGED_USER,
+  GET_MODIFICATIONS, MARK_AS_READ, CREATE_MODIFICATION,DELETE_USER_MODIFICATIONS,
+  GET_COMMENTS,DELETE_COMMENT, 
+  GET_ADS_LATERAL, CREATE_ADS_LATERAL, UPDATE_ADS_LATERAL, DELETE_ADS_LATERAL } from "./datatype";
 
 // 🔹 Constante global para la API
 const API_URL = process.env.REACT_APP_API_URL;
@@ -153,6 +156,26 @@ export const getNews = () => async (dispatch) => {
     throw error;
   }
 };
+
+// =========================================
+// 🔹 OBTENER LAS NOTICIAS X ID
+// =========================================
+export const getNewsById = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(`${API_URL}/news/${id}`);
+
+      dispatch({
+        type: GET_NEWS_BY_ID,
+        payload: res.data,
+      });
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 
 // =========================================
 // 🔹 CREAR NOTICIA
@@ -538,3 +561,180 @@ export const updateLoggedUser = (user) => {
     payload: user,
   };
 };
+
+// ============================
+// MODIFICATION CREATE
+// ============================
+export const createModification = (modificationData) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/modification`, modificationData);
+
+      dispatch({
+        type: CREATE_MODIFICATION,
+        payload: data
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+// ============================
+// MODIFICATION GET
+// ============================
+export const getModifications = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${API_URL}/modification`);
+
+      dispatch({
+        type: GET_MODIFICATIONS,
+        payload: data
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+// ============================
+// MARK READ DE MODIFICATION
+// ============================
+export const markAsRead = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.patch(`${API_URL}/modification/${id}/read`);
+
+      dispatch({
+        type: MARK_AS_READ,
+        payload: data
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+// DELETE historial de un usuario
+export const deleteUserModifications = (userId) => async (dispatch) => {
+  try {
+    await axios.delete(`${API_URL}/modification/user/${userId}`);
+    dispatch({ type: DELETE_USER_MODIFICATIONS, payload: userId });
+  } catch (error) {
+    console.error("Error al eliminar notificaciones:", error);
+  }
+};
+
+// ============================
+// COMENTARIOS GET
+// ============================
+export function getComments(newId){
+	return async (dispatch)=>{
+		try{
+			let url = newId 
+			? `${API_URL}/comment?newId=${newId}` 
+			: `${API_URL}/comment`;
+
+			let { data } = await axios.get(url);
+      console.log("🚀 GET_COMMENTS data:", data) //
+
+			dispatch({
+				type: GET_COMMENTS,
+				payload: data
+			})
+
+		}catch(error){
+			console.error("Error al obtener comentario", error)
+		}
+	}
+}
+
+// ============================
+// COMENTARIOS DELETE
+// ============================
+export function deleteComment(id){
+	return async (dispatch)=>{
+		try{
+			await axios.delete(`${API_URL}/comment/${id}`)
+
+			dispatch({
+				type: DELETE_COMMENT,
+				payload: id
+			})
+
+		}catch(error){
+			console.error("Error al eliminar comentario", error)
+		}
+	}
+}
+
+// ============================
+// ADS LATERAL GET
+// ============================
+export function get_ads_lateral() {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem("token")
+      const { data } = await axios.get(`${API_URL}/adslateral/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      console.log("🚀 GET ADS LATERAL DATA:", data) // 🔹 depuración
+      dispatch({ type: GET_ADS_LATERAL, payload: data })
+    } catch (error) {
+      console.error("Error al obtener ads laterales", error)
+    }
+  }
+}
+
+// ============================
+// ADS LATERAL CREATE
+// ============================
+export function create_ads_lateral(adData) {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem("token")
+      const { data } = await axios.post(`${API_URL}/adslateral/`, adData, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      dispatch({ type: CREATE_ADS_LATERAL, payload: data })
+    } catch (error) {
+      console.error("Error al crear ads laterales", error)
+    }
+  }
+}
+
+// ============================
+// ADS LATERAL EDIT
+// ============================
+export function update_ads_lateral(id, adData) {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem("token")
+      const { data } = await axios.put(`${API_URL}/adslateral/${id}`, adData, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      dispatch({ type: UPDATE_ADS_LATERAL, payload: data })
+    } catch (error) {
+      console.error("Error al actualizar ads laterales", error)
+    }
+  }
+}
+
+// ============================
+// ADS LATERAL DELETE
+// ============================
+export function delete_ads_lateral(id) {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem("token")
+      await axios.delete(`${API_URL}/adslateral/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      dispatch({ type: DELETE_ADS_LATERAL, payload: id })
+    } catch (error) {
+      console.error("Error al eliminar ads laterales", error)
+    }
+  }
+}

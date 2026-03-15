@@ -10,6 +10,7 @@ export const GET_NEWS  = "GET_NEWS";
 export const CREATE_NEWS  = "CREATE_NEWS";
 export const UPDATE_NEWS  = "UPDATE_NEWS";
 export const DELETE_NEWS  = "DELETE_NEWS";
+export const GET_NEWS_BY_ID  = "GET_NEWS_BY_ID";
 
 export const GET_ROLES = "GET_ROLES";
 export const CREATE_ROLE = "CREATE_ROLE";
@@ -26,3 +27,17 @@ export const CREATE_USER = "CREATE_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
 export const UPDATE_LOGGED_USER = "UPDATE_LOGGED_USER";
+
+export const CREATE_MODIFICATION = "CREATE_MODIFICATION";
+export const GET_MODIFICATIONS = "GET_MODIFICATIONS";
+export const MARK_AS_READ = "MARK_AS_READ";
+export const DELETE_USER_MODIFICATIONS = "DELETE_USER_MODIFICATIONS";
+
+export const GET_COMMENTS = "GET_COMMENTS";
+export const DELETE_COMMENT = "DELETE_COMMENT";
+
+export const GET_ADS_LATERAL = "GET_ADS_LATERAL";
+export const CREATE_ADS_LATERAL = "CREATE_ADS_LATERAL";
+export const UPDATE_ADS_LATERAL = "UPDATE_ADS_LATERAL";
+export const DELETE_ADS_LATERAL = "DELETE_ADS_LATE";
+
